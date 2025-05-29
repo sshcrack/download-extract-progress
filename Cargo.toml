@@ -1,6 +1,8 @@
 [package]
 name = "download-extract-progress"
 repository="https://github.com/sshcrack/download-extract-progress"
+description = "A Rust library for downloading and extracting files with progress tracking."
+license = "MIT"
 version = "0.1.0"
 edition = "2024"
 
