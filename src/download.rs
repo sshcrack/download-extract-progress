@@ -119,11 +119,15 @@ where
 {
     let display_name = repo.split('/').last().unwrap_or("unknown");
 
-    let releases: github_releases::Root =
-        reqwest::get(format!("https://api.github.com/repos/{repo}/releases"))
-            .await?
-            .json()
-            .await?;
+    let client = reqwest::Client::builder()
+        .user_agent("github-releases-downloader/1.0")
+        .build()
+        .context("Creating HTTP client")?;
+
+    let releases: github_releases::Root = client
+        .get(format!("https://api.github.com/repos/{repo}/releases"))
+        .send().await?
+        .json().await?;
 
     let latest_version = releases
         .iter()
