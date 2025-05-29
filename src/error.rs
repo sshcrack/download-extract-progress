@@ -2,17 +2,18 @@ use std::fmt::Display;
 
 use hex::FromHexError;
 
-
+/// Error type for download and extraction operations.
 #[derive(Debug)]
 pub enum DownloadError {
+    /// IO error occurred
     IoError(std::io::Error),
+    /// HTTP request error
     RequestError(reqwest::Error),
     /// An invalid hash was provided, which could not be decoded
     InvalidHash(FromHexError),
     /// Hash mismatch error, containing the expected and actual hash.
     HashMismatch(String, String)
 }
-
 
 impl Display for DownloadError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

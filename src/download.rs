@@ -9,6 +9,16 @@ use tokio::{fs::File, io::AsyncWriteExt};
 
 use crate::{error::DownloadError, github_releases};
 
+/// Downloads a file from the given URL to the specified path, reporting progress as a stream.
+///
+/// # Arguments
+/// * `display_name` - A name for display in progress messages.
+/// * `url` - The URL to download from.
+/// * `path` - The destination file path.
+/// * `expected_hash` - Optional SHA256 hash to verify the download.
+///
+/// # Returns
+/// A stream yielding progress (0.0-1.0) and status messages, or errors.
 pub async fn download<T: AsRef<Path>>(
     display_name: &str,
     url: &str,
@@ -88,6 +98,16 @@ pub async fn download<T: AsRef<Path>>(
     }
 }
 
+/// Downloads the latest GitHub release asset matching a predicate, with optional hash verification.
+///
+/// # Arguments
+/// * `repo` - GitHub repo in `owner/name` format.
+/// * `is_valid_file` - Predicate to select the asset.
+/// * `path` - Destination file path.
+/// * `hash_url` - Optional URL to a hash file.
+///
+/// # Returns
+/// A stream yielding progress and status, or errors.
 pub async fn download_github<T: AsRef<Path>, K>(
     repo: &str,
     is_valid_file: K,
@@ -114,7 +134,7 @@ where
         .assets
         .iter()
         .find(|a| is_valid_file(&a.name))
-        .context("Finding 7z asset")?
+        .context("Finding zip asset")?
         .browser_download_url
         .clone();
 
