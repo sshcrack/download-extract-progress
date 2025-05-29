@@ -12,7 +12,7 @@ use sevenz_rust::{default_entry_extract_fn, Password, SevenZReader};
 ///
 /// # Returns
 /// A stream yielding progress (0.0-1.0) and status messages, or errors.
-pub async fn extract_obs(file: &Path, out_path: &Path) -> impl Stream<Item = Result<(f32, String), sevenz_rust::Error>>{
+pub async fn extract(file: &Path, out_path: &Path) -> impl Stream<Item = Result<(f32, String), sevenz_rust::Error>>{
     let dest = out_path.to_path_buf();
     let path = file.to_path_buf();
 
