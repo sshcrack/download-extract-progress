@@ -4,15 +4,15 @@ use async_stream::stream;
 use futures_core::Stream;
 use sevenz_rust::{default_entry_extract_fn, Password, SevenZReader};
 
-/// Extracts a zip archive to the given output path, reporting progress as a stream.
+/// Extracts a 7z archive to the given output path, reporting progress as a stream.
 ///
 /// # Arguments
-/// * `file` - Path to the zip archive.
+/// * `file` - Path to the 7z archive.
 /// * `out_path` - Output directory for extraction.
 ///
 /// # Returns
 /// A stream yielding progress (0.0-1.0) and status messages, or errors.
-pub async fn extract(file: &Path, out_path: &Path) -> impl Stream<Item = Result<(f32, String), sevenz_rust::Error>>{
+pub async fn extract_7z(file: &Path, out_path: &Path) -> impl Stream<Item = Result<(f32, String), sevenz_rust::Error>>{
     let dest = out_path.to_path_buf();
     let path = file.to_path_buf();
 
@@ -60,3 +60,4 @@ pub async fn extract(file: &Path, out_path: &Path) -> impl Stream<Item = Result<
         yield Ok((1.0, "Extraction done".to_string()));
     }
 }
+
